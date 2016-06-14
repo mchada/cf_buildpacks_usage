@@ -11,7 +11,7 @@ import (
 func TestMain(t *testing.T) {
 	RegisterFailHandler(Fail)
 
-	plugin_builder.BuildTestBinary(".", "cf_buildpacks_usage_cmd")
+	plugin_builder.BuildTestBinary(".", "cf_buildpacks_usage")
 
 	RunSpecs(t, "Main Suite")
 }

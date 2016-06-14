@@ -90,7 +90,7 @@ func (c CliBuildpackUsage) PrintBuildpacks(res AppSearchResults) {
 		if bp == "" {
 			bp = val.Entity.DetectedBuildpack
 		}
-		fmt.Printf("| %s\t | %s |\n", val.Entity.Name, bp)
+		fmt.Printf("| %s - %s |\n", val.Entity.Name, bp)
 	}
 
 	fmt.Println("-------------------------------")
