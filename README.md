@@ -5,8 +5,8 @@ Cloud Foundry plugin extension to view all buildpacks used in across a Cloud Fou
 ## Install
 
 ```
-$ go get github.com/csterwa/cf_buildpack_usage_cmd
-$ cf install-plugin $GOPATH/bin/cf_buildpacks_usage_cmd
+$ go get github.com/rahul-kj/cf_buildpacks_usage
+$ cf install-plugin $GOPATH/bin/cf_buildpacks_usage
 ```
 
 ## Usage
@@ -14,27 +14,25 @@ $ cf install-plugin $GOPATH/bin/cf_buildpacks_usage_cmd
 ```
 $ cf buildpack-usage
 
-13 buildpacks found across 110 app deployments
+Following is the table of apps and buildpacks app deployments
 
-Buildpacks Used
-----------------
-
-Node.js
-PHP
-Ruby
-https://github.com/cloudfoundry/java-buildpack.git
-https://github.com/cloudfoundry/php-buildpack.git
-https://github.com/csterwa/cf-meteor-buildpack.git
-https://github.com/dmikusa-pivotal/cf-php-build-pack.git
-java-buildpack=v2.6.1-https://github.com/cloudfoundry/java-buildpack.git#2d92e70 java-main open-jdk-jre=1.8.0_40
-java-buildpack=v2.6.1-https://github.com/cloudfoundry/java-buildpack.git#2d92e70 open-jdk-jre=1.8.0_31 spring-auto-reconfiguration=1.7.0_RELEASE tomcat-access-logging-support=2.4.0_RELEASE tomcat-instance=8.0.20 tomcat-lifecycle-support=2.4.0_RELEASE t...
-java-buildpack=v2.6.1-https://github.com/cloudfoundry/java-buildpack.git#2d92e70 open-jdk-jre=1.8.0_40 spring-auto-reconfiguration=1.7.0_RELEASE tomcat-access-logging-support=2.4.0_RELEASE tomcat-instance=8.0.20 tomcat-lifecycle-support=2.4.0_RELEASE t...
-java-buildpack=v2.6.1-https://github.com/cloudfoundry/java-buildpack.git#2d92e70 open-jdk-jre=1.8.0_40 tomcat-access-logging-support=2.4.0_RELEASE tomcat-instance=8.0.20 tomcat-lifecycle-support=2.4.0_RELEASE tomcat-logging-support=2.4.0_RELEASE
-nodejs_buildpack
-```
+-------------------------------
+| console - ruby_buildpack |
+| app-usage-server - ruby_buildpack |
+| apps-manager-js - staticfile_buildpack |
+| app-usage-scheduler - ruby_buildpack |
+| app-usage-worker - ruby_buildpack |
+| notifications - Go |
+| notifications-ui - Go |
+| autoscale - Go |
+| spring-cloud-broker - java-buildpack=v3.6-offline-https://github.com/cloudfoundry/java-buildpack.git#5194155 java-main open-jdk-like-jre=1.8.0_71 open-jdk-like-memory-calculator=2.0.1_RELEASE spring-auto-reconfiguration=1.10.0_RELEASE |
+| spring-cloud-broker-worker - java-buildpack=v3.6-offline-https://github.com/cloudfoundry/java-buildpack.git#5194155 java-main open-jdk-like-jre=1.8.0_71 open-jdk-like-memory-calculator=2.0.1_RELEASE spring-auto-reconfiguration=1.10.0_RELEASE |
+| metrics - java_buildpack_offline |
+| metrics-ui - staticfile_buildpack |
+-------------------------------
 
 ## Uninstall
 
 ```
-$ cf uninstall-plugin CliBuildpackUsage
+$ cf uninstall-plugin buildpack-usage
 ```
