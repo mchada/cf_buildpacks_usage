@@ -60,19 +60,7 @@ func main() {
 // Run is what is executed by the Cloud Foundry CLI when the buildpack-usage command is specified
 func (c CliBuildpackUsage) Run(cliConnection plugin.CliConnection, args []string) {
 	res := c.GetAppData(cliConnection)
-
-	var buildpacksUsed sort.StringSlice
-
-	for _, val := range res.Resources {
-		bp := val.Entity.Buildpack
-		if bp == "" {
-			bp = val.Entity.DetectedBuildpack
-		}
-		buildpacksUsed = append(buildpacksUsed, bp)
-	}
-
-	var buildpackUsageTable = c.CreateBuildpackUsageTable(buildpacksUsed)
-	c.PrintBuildpacks(buildpackUsageTable, res.TotalResults)
+	c.PrintBuildpacks(res)
 }
 
 // CreateBuildpackUsageTable creates a map whose key is buildpack and value is count of that buildpack
@@ -91,24 +79,21 @@ func (c CliBuildpackUsage) CreateBuildpackUsageTable(buildpacksUsed sort.StringS
 }
 
 // PrintBuildpacks prints the buildpack data to console
-func (c CliBuildpackUsage) PrintBuildpacks(buildpackUsageTable map[string]int, totalResults int) {
+func (c CliBuildpackUsage) PrintBuildpacks(res AppSearchResults) {
 	fmt.Println("")
-	fmt.Printf("%v buildpacks found across %v app deployments\n\n", len(buildpackUsageTable), totalResults)
-	fmt.Println("Buildpacks Used\n")
-	fmt.Println("Count\tName")
+
+	fmt.Printf("Following is the table of apps and buildpacks app deployments\n\n")
 	fmt.Println("-------------------------------")
 
-	buildpackNames := make([]string, len(buildpackUsageTable))
-	j := 0
-	for buildpack, _ := range buildpackUsageTable {
-		buildpackNames[j] = buildpack
-		j++
+	for _, val := range res.Resources {
+		bp := val.Entity.Buildpack
+		if bp == "" {
+			bp = val.Entity.DetectedBuildpack
+		}
+		fmt.Printf("| %s\t | %s |\n", val.Entity.Name, bp)
 	}
 
-	sort.Strings(buildpackNames)
-	for _, buildpack := range buildpackNames {
-		fmt.Printf("%v\t%v\n", buildpackUsageTable[buildpack], buildpack)
-	}
+	fmt.Println("-------------------------------")
 }
 
 // GetAppData requests all of the Application data from Cloud Foundry
