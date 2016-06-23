@@ -14,22 +14,22 @@ $ cf install-plugin $GOPATH/bin/cf_buildpacks_usage
 ```
 $ cf buildpack-usage
 
-Following is the table of apps and buildpacks app deployments
+Following is the markdown output
 
--------------------------------
-| console - ruby_buildpack |
-| app-usage-server - ruby_buildpack |
-| apps-manager-js - staticfile_buildpack |
-| app-usage-scheduler - ruby_buildpack |
-| app-usage-worker - ruby_buildpack |
-| notifications - Go |
-| notifications-ui - Go |
-| autoscale - Go |
-| spring-cloud-broker - java-buildpack=v3.6-offline-https://github.com/cloudfoundry/java-buildpack.git#5194155 java-main open-jdk-like-jre=1.8.0_71 open-jdk-like-memory-calculator=2.0.1_RELEASE spring-auto-reconfiguration=1.10.0_RELEASE |
-| spring-cloud-broker-worker - java-buildpack=v3.6-offline-https://github.com/cloudfoundry/java-buildpack.git#5194155 java-main open-jdk-like-jre=1.8.0_71 open-jdk-like-memory-calculator=2.0.1_RELEASE spring-auto-reconfiguration=1.10.0_RELEASE |
-| metrics - java_buildpack_offline |
-| metrics-ui - staticfile_buildpack |
--------------------------------
+|        ORG |                          SPACE |                    APPLICATION |      STATE |                                                                                                                                                                                                                                                  BUILDPACK |
+|      ----- |                          ----- |                          ----- |      ----- |                                                                                                                                                                                                                                                      ----- |
+|     system |                   apps-manager |             apps-manager-green |    STARTED |                                                                                                                                                                                                                                             ruby_buildpack |
+```
+
+```
+$ cf buildpack-usage --csv
+
+Following is the csv output
+
+ORG,SPACE,APPLICATION,STATE,BUILDPACK
+system,apps-manager,apps-manager-green,STARTED,ruby_buildpack
+
+```
 
 ## Uninstall
 
