@@ -28,7 +28,10 @@ type AppSearchEntity struct {
 	Buildpack         string `json:"buildpack"`
 	DetectedBuildpack string `json:"detected_buildpack"`
 	SpaceGUID         string `json:"space_guid"`
+	Instances         int    `json:"instances"`
 	State             string `json:"state"`
+	Memory            int    `json:"memory"`
+	DiskQuota         int    `json:"disk_quota"`
 }
 
 // GetAppData requests all of the Application data from Cloud Foundry

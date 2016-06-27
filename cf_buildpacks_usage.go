@@ -20,7 +20,7 @@ func (c *BuildpackUsage) GetMetadata() plugin.PluginMetadata {
 		Name: "buildpack-usage",
 		Version: plugin.VersionType{
 			Major: 1,
-			Minor: 0,
+			Minor: 1,
 			Build: 0,
 		},
 		Commands: []plugin.Command{
@@ -28,7 +28,7 @@ func (c *BuildpackUsage) GetMetadata() plugin.PluginMetadata {
 				Name:     "buildpack-usage",
 				HelpText: "Command to view all apps associated with a buildpack in current CLI target context.",
 				UsageDetails: plugin.Usage{
-					Usage: "cf buildpack-usage\n   cf buildpack-usage --csv",
+					Usage: "cf buildpack-usage\n   cf buildpack-usage --csv\n   cf buildpack-usage --verbose",
 				},
 			},
 		},
@@ -45,8 +45,12 @@ func (c BuildpackUsage) Run(cli plugin.CliConnection, args []string) {
 		orgs := c.GetOrgs(cli)
 		spaces := c.GetSpaces(cli)
 		apps := c.GetAppData(cli)
-		if len(args) == 2 && args[1] == "--csv" {
-			c.PrintInCSVFormat(orgs, spaces, apps)
+		if len(args) == 2 {
+			if args[1] == "--csv" {
+				c.PrintInCSVFormat(orgs, spaces, apps)
+			} else if args[1] == "--verbose" {
+				c.PrintVerboseOutputInCSVFormat(orgs, spaces, apps)
+			}
 		} else {
 			c.PrintInMarkDownFormat(orgs, spaces, apps)
 		}
@@ -73,6 +77,24 @@ func (c BuildpackUsage) PrintInCSVFormat(orgs map[string]string, spaces map[stri
 		orgName := orgs[space.OrgGUID]
 
 		fmt.Printf("%s,%s,%s,%s,%s\n", orgName, spaceName, val.Entity.Name, val.Entity.State, bp)
+	}
+}
+
+// PrintInMarkDownFormat prints the buildpack data to console
+func (c BuildpackUsage) PrintVerboseOutputInCSVFormat(orgs map[string]string, spaces map[string]SpaceSearchEntity, apps AppSearchResults) {
+	fmt.Println("")
+
+	fmt.Printf("Following is the csv output \n\n")
+
+	fmt.Printf("%s,%s,%s,%s,%s,%s,%s\n", "ORG", "SPACE", "APPLICATION", "STATE", "INSTANCES", "MEMORY", "DISK")
+
+	for _, val := range apps.Resources {
+
+		space := spaces[val.Entity.SpaceGUID]
+		spaceName := space.Name
+		orgName := orgs[space.OrgGUID]
+
+		fmt.Printf("%s,%s,%s,%s,%v,%v MB,%v MB\n", orgName, spaceName, val.Entity.Name, val.Entity.State, val.Entity.Instances, val.Entity.Memory, val.Entity.DiskQuota)
 	}
 }
 
